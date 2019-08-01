@@ -1,53 +1,38 @@
 import React from 'react';
-import {Homepage} from './homepage/homepage';
-import {About} from './homepage/about';
-import {Users} from './homepage/users';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import axios from 'axios';
-
+import {Todos} from "./Homepage/Todos";
+import {AddTodo} from "./Homepage/AddTodo";
 import './App.css';
 
-class App extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-    usersdata: []
-    };
-    }
-  componentDidMount(){
-    axios.get('https://jsonplaceholder.typicode.com/users')
-    .then(res => {
-    this.setState({usersdata:res.data})
-    })
-  .catch(function (error) {
-  console.log(error);
-  })
-  }    
-    render(){return (
-      <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Homepage</Link>
-            </li>
-            <li>
-              <Link to="/about/">About</Link>
-            </li>
-            <li>
-              <Link to="/users/">Users</Link>
-            </li>
-          </ul>
-        </nav>
 
-        <Route path="/" exact component={Homepage} />
-        <Route path="/about/" component={About} />
-        <Route path="/users/" render = { () => <Users users_data = {this.state.usersdata} /> } />
-      </div>
-    </Router>
-      
-    );
+class App extends React.Component{
+  addTodo = (title) =>{
+    const newTodo={
+      id:4,
+      title
+    }
+    this.setState({todos:[newTodo]})
   }
+  state={
+    todos:[
+      {
+        id:1,
+        title:"lol"
+      },
+      {
+        id:2,
+        title:"haha"
+      }
+    ]
+  }
+  render(){
+    return (
+        <div className="App">
+          <AddTodo addtodo={this.addTodo}/>
+          <Todos todos={this.state.todos} />
+
+    </div>
+  );
+}
 }
 
 export default App;
